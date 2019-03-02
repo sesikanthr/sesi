@@ -1,4 +1,4 @@
-package com.cisco.nms.api.model;
+package com.cisco.nms.api.payload;
 
 public class MessageCountDTO {
 	

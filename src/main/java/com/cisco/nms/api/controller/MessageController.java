@@ -1,4 +1,4 @@
-package com.cisco.nms.rest;
+package com.cisco.nms.api.controller;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -9,20 +9,22 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.cisco.nms.api.model.Message;
-import com.cisco.nms.api.model.MessageCountDTO;
+import com.cisco.nms.api.payload.Message;
+import com.cisco.nms.api.payload.MessageCountDTO;
 import com.cisco.nms.service.MessageService;
 
 /**
@@ -30,6 +32,7 @@ import com.cisco.nms.service.MessageService;
  * @author dedadhic
  *
  */
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/messages")
 public class MessageController {
@@ -58,14 +61,28 @@ public class MessageController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<Page<Message>> searchMessages(Pageable pageRequest) {
+	public ResponseEntity<Page<Message>> searchMessages(@RequestParam("id") Optional<Long> id,
+			@RequestParam("source") Optional<String> source, @RequestParam("type") Optional<String> type,
+			@RequestParam("description") Optional<String> description,
+			@RequestParam("dateAdded") Optional<Date> dateAdded, Pageable pageRequest) {
 
 		LOGGER.debug("Start of searchMessages method. pageRequest={}", pageRequest);
-		Date currentDate = new Date();
-		Calendar c = Calendar.getInstance();
-		c.setTime(currentDate);
-		c.add(Calendar.HOUR_OF_DAY, -24);
-		Page<Message> page = new PageImpl<Message>(messageService.findByDateAddedBetween(c.getTime(), currentDate, pageRequest));
+
+		Page<Message> page = null;
+
+		if (id.isPresent() || (source.isPresent() && !source.get().isEmpty())
+				|| (type.isPresent() && !type.get().isEmpty())
+				|| (description.isPresent() && !description.get().isEmpty()) || dateAdded.isPresent()) {
+			page = messageService.findAllByFilter(id.orElse(null), source.orElse(null), type.orElse(null),
+					description.orElse(null), dateAdded.orElse(null), pageRequest);
+		} else {
+			Date currentDate = new Date();
+			Calendar c = Calendar.getInstance();
+			c.setTime(currentDate);
+			c.add(Calendar.HOUR_OF_DAY, -24);
+			page = messageService.findByDateAddedBetween(c.getTime(), currentDate, pageRequest);
+		}
+
 		return new ResponseEntity<Page<Message>>(page, HttpStatus.OK);
 	}
 

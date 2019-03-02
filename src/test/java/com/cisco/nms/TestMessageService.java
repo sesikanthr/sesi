@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.cisco.nms.api.model.Message;
+import com.cisco.nms.api.payload.Message;
 import com.cisco.nms.data.MessageRepository;
 import com.cisco.nms.service.impl.MessageServiceImpl;
 
