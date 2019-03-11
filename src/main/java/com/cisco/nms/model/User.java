@@ -11,8 +11,10 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.NaturalId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.cisco.nms.model.audit.DateAudit;
+
 @Document(collection = "users")
-public class User {
+public class User extends DateAudit {
 
 	@Id
 	private String id;
