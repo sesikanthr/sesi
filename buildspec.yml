@@ -18,8 +18,6 @@ phases:
       - docker push 860360332628.dkr.ecr.us-west-2.amazonaws.com/nms-dashboard:latest
       - mkdir appfiles
       - cd appfiles
-      - pwd
-      - ls
       - cp ../appspec.yml .
       - cp ../scripts/kill_container.sh .
       - cp ../scripts/start_container.sh .
