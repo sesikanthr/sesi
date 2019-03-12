@@ -17,6 +17,7 @@ phases:
       - echo Pushing the Docker image...
       - docker push 860360332628.dkr.ecr.us-west-2.amazonaws.com/nms-dashboard:latest
       - mkdir appfiles
+      - cd appfiles
       - pwd
       - ls
       - cp ../scripts/kill_container.sh .

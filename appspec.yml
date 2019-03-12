@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /opt
+    destination: /tmp
 hooks:
   ApplicationStop:
     - location: appfiles/kill_container.sh
