@@ -26,6 +26,7 @@ phases:
 artifacts:
   files:
     - appfiles/kill_container.sh
+    - appfiles/appspec.yml
     - appfiles/start_container.sh
   discard-paths: yes
     
