@@ -20,6 +20,7 @@ phases:
       - cd appfiles
       - pwd
       - ls
+      - cp ../appspec.yml .
       - cp ../scripts/kill_container.sh .
       - cp ../scripts/start_container.sh .
 artifacts:

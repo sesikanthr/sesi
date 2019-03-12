@@ -5,10 +5,10 @@ files:
     destination: /tmp
 hooks:
   ApplicationStop:
-    - location: appfiles/kill_container.sh
+    - location: kill_container.sh
       timeout: 20
       runas: root
   ApplicationStart:
-    - location: appfiles/start_container.sh
+    - location: start_container.sh
       timeout: 10
       runas: root
