@@ -1,11 +1,14 @@
 version: 0.0
 os: linux
+files:
+  - source: /
+    destination: /opt
 hooks:
   ApplicationStop:
-    - location: scripts/kill_container.sh
+    - location: appfiles/kill_container.sh
       timeout: 20
       runas: root
   ApplicationStart:
-    - location: scripts/start_container.sh
+    - location: appfiles/start_container.sh
       timeout: 10
       runas: root

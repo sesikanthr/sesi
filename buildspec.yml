@@ -16,7 +16,12 @@ phases:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
       - docker push 860360332628.dkr.ecr.us-west-2.amazonaws.com/nms-dashboard:latest
-      - printf '[{"name":"nms-dashboard","imageUri":"%s"}]' 860360332628.dkr.ecr.us-west-2.amazonaws.com/nms-dashboard:latest > imagedefinitions.json
+      - mkdir appfiles
+      - cp ../scripts/kill_container.sh .
+      - cp ../scripts/start_container.sh .
 artifacts:
-  files: imagedefinitions.json
+  files:
+    - appfiles/kill_container.sh
+    - appfiles/start_container.sh
+  discard-paths: yes
     
