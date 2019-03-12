@@ -3,17 +3,12 @@ os: linux
 files:
   - source: /
     destination: /tmp
-permissions:
-  - object: /tmp
-    owner: root
-    group: root
-    mode: 777
 hooks:
   ApplicationStop:
     - location: kill_container.sh
       timeout: 20
-      runas: root
+      runas: ubuntu
   ApplicationStart:
     - location: start_container.sh
       timeout: 10
-      runas: root
+      runas: ubuntu
