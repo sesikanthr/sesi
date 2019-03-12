@@ -3,6 +3,11 @@ os: linux
 files:
   - source: /
     destination: /tmp
+permissions:
+  - object: /tmp
+    owner: root
+    group: root
+    mode: 777
 hooks:
   ApplicationStop:
     - location: kill_container.sh
