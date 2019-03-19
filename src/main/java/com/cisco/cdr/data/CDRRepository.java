@@ -18,7 +18,7 @@ import com.cisco.cdr.api.payload.Cdr;
 @Repository
 public interface CDRRepository extends CrudRepository<Cdr, Long>, JpaSpecificationExecutor<Cdr> {
 
-	@Query("SELECT " + "    new com.cisco.nms.api.payload.CDRCountDTO(cdr.status, COUNT(cdr)) " + "FROM "
+	@Query("SELECT " + "    new com.cisco.cdr.api.payload.CDRCountDTO(cdr.status, COUNT(cdr)) " + "FROM "
 			+ "    Cdr cdr WHERE cdr.dateAdded <= :startDate AND cdr.dateAdded >= :endDate" + " GROUP BY "
 			+ "    cdr.status")
 	public List<CDRCountDTO> fetchMessageCount(@Param("startDate") Date startDate, @Param("endDate") Date endDate);

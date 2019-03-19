@@ -60,7 +60,7 @@ public class CDRController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<Page<Cdr>> searchMessages(@RequestParam("id") Optional<Long> id,
+	public ResponseEntity<Page<Cdr>> searchMessages(@RequestParam("cdrId") Optional<Long> cdrId,
 			@RequestParam("operatorId") Optional<Long> operatorId, @RequestParam("acctId") Optional<Long> acctId,
 			@RequestParam("status") Optional<String> status, @RequestParam("dateAdded") Optional<Date> dateAdded,
 			Pageable pageRequest) {
@@ -69,9 +69,9 @@ public class CDRController {
 
 		Page<Cdr> page = null;
 
-		if (id.isPresent() || operatorId.isPresent() || acctId.isPresent()
+		if (cdrId.isPresent() || operatorId.isPresent() || acctId.isPresent()
 				|| (status.isPresent() && !status.get().isEmpty()) || dateAdded.isPresent()) {
-			page = cdrService.findAllByFilter(id.orElse(null), operatorId.orElse(null), acctId.orElse(null),
+			page = cdrService.findAllByFilter(cdrId.orElse(null), operatorId.orElse(null), acctId.orElse(null),
 					status.orElse(null), dateAdded.orElse(null), pageRequest);
 		} else {
 			Date currentDate = new Date();
