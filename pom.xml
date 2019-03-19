@@ -3,10 +3,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.cisco.cmad</groupId>
-	<artifactId>messagedashboard</artifactId>
+	<artifactId>cdr-dashboard</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<description>Messaging dashboard to display the messages with differnet severity.</description>
+	<description>CDR dashboard to display the messages with differnet severity.</description>
 	<properties>
 		<java.version>1.8</java.version>
 		<jjwt.version>0.9.0</jjwt.version>
@@ -65,7 +65,7 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>nms-dashboard</finalName>
+		<finalName>cdr-dashboard</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
