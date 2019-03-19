@@ -1,15 +1,13 @@
 package com.cisco.nms;
 
-import static org.junit.Assert.*;
-
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.cisco.nms.api.payload.Cdr;
-import com.cisco.nms.data.CDRRepository;
-import com.cisco.nms.service.impl.CDRServiceImpl;
+import com.cisco.cdr.api.payload.Cdr;
+import com.cisco.cdr.data.CDRRepository;
+import com.cisco.cdr.service.impl.CDRServiceImpl;
 
 public class TestMessageService {
 	
@@ -23,7 +21,7 @@ public class TestMessageService {
         
 		messageService = new CDRServiceImpl();
 		messageRepository  = EasyMock.createNiceMock(CDRRepository.class);
-		messageService.setMessageRepository(messageRepository);
+		messageService.setCdrRepository(messageRepository);
     }
 
 
