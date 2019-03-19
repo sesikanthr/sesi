@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.cisco.nms.api.exception.NMSDashboardException;
+import com.cisco.nms.api.exception.CDRDashboardException;
 import com.cisco.nms.api.payload.ApiResponse;
 import com.cisco.nms.api.payload.JwtAuthenticationResponse;
 import com.cisco.nms.api.payload.LoginRequest;
@@ -79,7 +79,7 @@ public class AuthController {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 
 		Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
-				.orElseThrow(() -> new NMSDashboardException("User Role not set."));
+				.orElseThrow(() -> new CDRDashboardException("User Role not set."));
 
 		user.setRoles(Collections.singleton(userRole));
 

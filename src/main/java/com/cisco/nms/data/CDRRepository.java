@@ -12,18 +12,18 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.cisco.nms.api.payload.Message;
-import com.cisco.nms.api.payload.MessageCountDTO;
+import com.cisco.nms.api.payload.Cdr;
+import com.cisco.nms.api.payload.CDRCountDTO;
 
 @Repository
-public interface MessageRepository extends CrudRepository<Message, Long>, JpaSpecificationExecutor<Message> {
+public interface CDRRepository extends CrudRepository<Cdr, Long>, JpaSpecificationExecutor<Cdr> {
 
 	@Query("SELECT " + "    new com.cisco.nms.api.payload.MessageCountDTO(msg.type, COUNT(msg)) " + "FROM "
 			+ "    Message msg WHERE msg.dateAdded <= :startDate AND msg.dateAdded >= :endDate" + " GROUP BY "
 			+ "    msg.type")
-	public List<MessageCountDTO> fetchMessageCount(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+	public List<CDRCountDTO> fetchMessageCount(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
-	public Page<Message> findByDateAddedBetween(Date startDate, Date endDate, Pageable pageable);
+	public Page<Cdr> findByDateAddedBetween(Date startDate, Date endDate, Pageable pageable);
 
-	public Page<Message> findAll(Specification<Message> spec, Pageable pageable);
+	public Page<Cdr> findAll(Specification<Cdr> spec, Pageable pageable);
 }

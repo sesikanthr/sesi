@@ -7,22 +7,22 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.cisco.nms.api.payload.Message;
-import com.cisco.nms.data.MessageRepository;
-import com.cisco.nms.service.impl.MessageServiceImpl;
+import com.cisco.nms.api.payload.Cdr;
+import com.cisco.nms.data.CDRRepository;
+import com.cisco.nms.service.impl.CDRServiceImpl;
 
 public class TestMessageService {
 	
 	@Autowired
-	private MessageRepository messageRepository;
+	private CDRRepository messageRepository;
 	
-	private MessageServiceImpl messageService;
+	private CDRServiceImpl messageService;
 	
 	@Before
     public void setUp() throws Exception {
         
-		messageService = new MessageServiceImpl();
-		messageRepository  = EasyMock.createNiceMock(MessageRepository.class);
+		messageService = new CDRServiceImpl();
+		messageRepository  = EasyMock.createNiceMock(CDRRepository.class);
 		messageService.setMessageRepository(messageRepository);
     }
 
@@ -30,7 +30,7 @@ public class TestMessageService {
 	@Test
 	public void testAdd() {
 		
-		Message message = new Message();
+		Cdr message = new Cdr();
 		EasyMock.expect(messageRepository.save(message)).andReturn(message);
 		EasyMock.replay(messageRepository);
 		messageService.add(message);

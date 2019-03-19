@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,9 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.cisco.nms.api.payload.Message;
-import com.cisco.nms.api.payload.MessageCountDTO;
-import com.cisco.nms.service.MessageService;
+import com.cisco.nms.api.payload.CDRCountDTO;
+import com.cisco.nms.api.payload.Cdr;
+import com.cisco.nms.service.CDRService;
 
 /**
  * 
@@ -34,47 +33,46 @@ import com.cisco.nms.service.MessageService;
  */
 @CrossOrigin
 @RestController
-@RequestMapping(value = "/messages")
-public class MessageController {
+@RequestMapping(value = "/cdrs")
+public class CDRController {
 
-	private static Logger LOGGER = LogManager.getFormatterLogger(MessageController.class);
+	private static Logger LOGGER = LogManager.getFormatterLogger(CDRController.class);
 
 	@Autowired
-	private MessageService messageService;
+	private CDRService messageService;
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Message> createMessage(@RequestBody Message message, UriComponentsBuilder builder) {
+	public ResponseEntity<Cdr> createMessage(@RequestBody Cdr message, UriComponentsBuilder builder) {
 
 		LOGGER.debug("Start of createMessage method. message={}", message);
 		messageService.add(message);
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(builder.path("/{id}").buildAndExpand(message.getId()).toUri());
-		return new ResponseEntity<Message>(message, headers, HttpStatus.CREATED);
+		headers.setLocation(builder.path("/{id}").buildAndExpand(message.getCdrId()).toUri());
+		return new ResponseEntity<Cdr>(message, headers, HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Message> getMessage(@PathVariable("id") Long id) {
+	public ResponseEntity<Cdr> getMessage(@PathVariable("id") Long id) {
 
 		LOGGER.debug("Start of getMessage method. id={}", id);
-		Optional<Message> optional = messageService.findById(id);
-		return new ResponseEntity<Message>(optional.get(), HttpStatus.OK);
+		Optional<Cdr> optional = messageService.findById(id);
+		return new ResponseEntity<Cdr>(optional.get(), HttpStatus.OK);
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<Page<Message>> searchMessages(@RequestParam("id") Optional<Long> id,
-			@RequestParam("source") Optional<String> source, @RequestParam("type") Optional<String> type,
-			@RequestParam("description") Optional<String> description,
-			@RequestParam("dateAdded") Optional<Date> dateAdded, Pageable pageRequest) {
+	public ResponseEntity<Page<Cdr>> searchMessages(@RequestParam("id") Optional<Long> id,
+			@RequestParam("operatorId") Optional<Long> operatorId, @RequestParam("acctId") Optional<Long> acctId,
+			@RequestParam("status") Optional<String> status, @RequestParam("dateAdded") Optional<Date> dateAdded,
+			Pageable pageRequest) {
 
 		LOGGER.debug("Start of searchMessages method. pageRequest={}", pageRequest);
 
-		Page<Message> page = null;
+		Page<Cdr> page = null;
 
-		if (id.isPresent() || (source.isPresent() && !source.get().isEmpty())
-				|| (type.isPresent() && !type.get().isEmpty())
-				|| (description.isPresent() && !description.get().isEmpty()) || dateAdded.isPresent()) {
-			page = messageService.findAllByFilter(id.orElse(null), source.orElse(null), type.orElse(null),
-					description.orElse(null), dateAdded.orElse(null), pageRequest);
+		if (id.isPresent() || operatorId.isPresent() || acctId.isPresent()
+				|| (status.isPresent() && !status.get().isEmpty()) || dateAdded.isPresent()) {
+			page = messageService.findAllByFilter(id.orElse(null), operatorId.orElse(null), acctId.orElse(null),
+					status.orElse(null), dateAdded.orElse(null), pageRequest);
 		} else {
 			Date currentDate = new Date();
 			Calendar c = Calendar.getInstance();
@@ -83,18 +81,18 @@ public class MessageController {
 			page = messageService.findByDateAddedBetween(c.getTime(), currentDate, pageRequest);
 		}
 
-		return new ResponseEntity<Page<Message>>(page, HttpStatus.OK);
+		return new ResponseEntity<Page<Cdr>>(page, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/count", method = RequestMethod.GET)
-	public ResponseEntity<List<MessageCountDTO>> getMessageCount() {
+	public ResponseEntity<List<CDRCountDTO>> getMessageCount() {
 
 		LOGGER.debug("Start of getMessageCount method.");
 		Date currentDate = new Date();
 		Calendar c = Calendar.getInstance();
 		c.setTime(currentDate);
 		c.add(Calendar.HOUR_OF_DAY, -24);
-		return new ResponseEntity<List<MessageCountDTO>>(messageService.getMessageCount(currentDate, c.getTime()),
+		return new ResponseEntity<List<CDRCountDTO>>(messageService.getMessageCount(currentDate, c.getTime()),
 				HttpStatus.OK);
 	}
 

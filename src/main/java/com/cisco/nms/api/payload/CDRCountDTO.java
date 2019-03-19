@@ -1,11 +1,11 @@
 package com.cisco.nms.api.payload;
 
-public class MessageCountDTO {
+public class CDRCountDTO {
 	
 	private String messageType;
 	private Long count;
 	
-	public MessageCountDTO(String messageType, Long count) {
+	public CDRCountDTO(String messageType, Long count) {
 		this.messageType = messageType;
 		this.count = count;
 	}

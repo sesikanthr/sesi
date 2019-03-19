@@ -11,39 +11,39 @@ import javax.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
 
-import com.cisco.nms.api.payload.Message;
+import com.cisco.nms.api.payload.Cdr;
 
-public class MessageSpecification {
+public class CDRSpecification {
 
-	private Message messageFilter;
+	private Cdr messageFilter;
 
-	public MessageSpecification(Message messageFilter) {
+	public CDRSpecification(Cdr messageFilter) {
 		this.messageFilter = messageFilter;
 	}
 
-	public static Specification<Message> contain(Message messageFilter) {
-		return new Specification<Message>() {
+	public static Specification<Cdr> contain(Cdr messageFilter) {
+		return new Specification<Cdr>() {
 			@Override
-            public Predicate toPredicate(Root<Message> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+            public Predicate toPredicate(Root<Cdr> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 final Collection<Predicate> predicates = new ArrayList<>();
                 
-                if (messageFilter.getId() != null) {
-                    final Predicate idPredicate = cb.equal(root.get("id"), messageFilter.getId());
+                if (messageFilter.getCdrId() != null) {
+                    final Predicate idPredicate = cb.equal(root.get("id"), messageFilter.getCdrId());
                     predicates.add(idPredicate);
                 }
                 
-                if (!StringUtils.isEmpty(messageFilter.getSource())) {
-                    final Predicate sourcePredicate = cb.like(root.get("source"), "%"+messageFilter.getSource()+"%");
+                if (!StringUtils.isEmpty(messageFilter.getOperatorId())) {
+                    final Predicate sourcePredicate = cb.like(root.get("operatorId"), "%"+messageFilter.getOperatorId()+"%");
                     predicates.add(sourcePredicate);
                 }
                 
-                if (!StringUtils.isEmpty(messageFilter.getType())) {
-                    final Predicate typePredicate = cb.like(root.get("type"), "%"+messageFilter.getType()+"%");
+                if (!StringUtils.isEmpty(messageFilter.getAcctId())) {
+                    final Predicate typePredicate = cb.like(root.get("acctId"), "%"+messageFilter.getAcctId()+"%");
                     predicates.add(typePredicate);
                 }
                 
-                if (!StringUtils.isEmpty(messageFilter.getDescription())) {
-                    final Predicate descPredicate = cb.like(root.get("description"), "%"+messageFilter.getDescription()+"%");
+                if (!StringUtils.isEmpty(messageFilter.getStatus())) {
+                    final Predicate descPredicate = cb.like(root.get("status"), "%"+messageFilter.getStatus()+"%");
                     predicates.add(descPredicate);
                 }
                 if (messageFilter.getDateAdded() != null) {

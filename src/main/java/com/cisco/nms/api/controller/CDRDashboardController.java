@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  */
 @Controller
-public class NMSDashboardController {
+public class CDRDashboardController {
 	
 	@RequestMapping(value = "/")
 	public String index() {
