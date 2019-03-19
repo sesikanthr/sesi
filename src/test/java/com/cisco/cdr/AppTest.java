@@ -1,4 +1,4 @@
-package com.cisco.nms;
+package com.cisco.cdr;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

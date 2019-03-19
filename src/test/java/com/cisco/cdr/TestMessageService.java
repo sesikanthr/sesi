@@ -1,4 +1,4 @@
-package com.cisco.nms;
+package com.cisco.cdr;
 
 import org.easymock.EasyMock;
 import org.junit.Before;
