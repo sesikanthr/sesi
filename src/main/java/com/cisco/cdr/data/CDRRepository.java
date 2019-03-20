@@ -12,6 +12,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.cisco.cdr.api.payload.AcctDataUsageDTO;
 import com.cisco.cdr.api.payload.CDRCountDTO;
 import com.cisco.cdr.api.payload.Cdr;
 
@@ -22,6 +23,14 @@ public interface CDRRepository extends CrudRepository<Cdr, Long>, JpaSpecificati
 			+ "    Cdr cdr WHERE cdr.dateAdded <= :startDate AND cdr.dateAdded >= :endDate" + " GROUP BY "
 			+ "    cdr.status")
 	public List<CDRCountDTO> fetchMessageCount(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+
+	@Query("SELECT "
+			+ "    new com.cisco.cdr.api.payload.AcctDataUsageDTO(cdr.acctId, SUM(cdr.byteUpLink), SUM(cdr.byteDownLink)) "
+			+ "FROM "
+			+ "    Cdr cdr WHERE cdr.dateAdded <= :startDate AND cdr.dateAdded >= :endDate AND cdr.operatorId=:operatorId"
+			+ " GROUP BY " + "    cdr.acctId")
+	public List<AcctDataUsageDTO> fetchAcctDataUsage(@Param("operatorId") Long operatorId,
+			@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
 	public Page<Cdr> findByDateAddedBetween(Date startDate, Date endDate, Pageable pageable);
 

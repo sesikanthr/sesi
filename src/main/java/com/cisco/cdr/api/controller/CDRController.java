@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.cisco.cdr.api.payload.AcctDataUsageDTO;
 import com.cisco.cdr.api.payload.CDRCountDTO;
 import com.cisco.cdr.api.payload.Cdr;
 import com.cisco.cdr.service.CDRService;
@@ -93,6 +94,18 @@ public class CDRController {
 		c.setTime(currentDate);
 		c.add(Calendar.HOUR_OF_DAY, -24);
 		return new ResponseEntity<List<CDRCountDTO>>(cdrService.getMessageCount(currentDate, c.getTime()),
+				HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/acctusages", method = RequestMethod.GET)
+	public ResponseEntity<List<AcctDataUsageDTO>> getAcctUsages(@RequestParam("operatorId") Optional<Long> operatorId) {
+
+		LOGGER.debug("Start of getAcctUsages method.");
+		Date currentDate = new Date();
+		Calendar c = Calendar.getInstance();
+		c.setTime(currentDate);
+		c.add(Calendar.HOUR_OF_DAY, -24);
+		return new ResponseEntity<List<AcctDataUsageDTO>>(cdrService.fetchAcctDataUsage(operatorId.orElse(null), currentDate, c.getTime()),
 				HttpStatus.OK);
 	}
 

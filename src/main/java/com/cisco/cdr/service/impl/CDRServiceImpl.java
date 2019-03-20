@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.cisco.cdr.api.payload.AcctDataUsageDTO;
 import com.cisco.cdr.api.payload.CDRCountDTO;
 import com.cisco.cdr.api.payload.Cdr;
 import com.cisco.cdr.data.CDRRepository;
@@ -73,6 +74,12 @@ public class CDRServiceImpl implements CDRService {
 		messageFilter.setStatus(status);
 		messageFilter.setDateAdded(dateAdded);
 		return cdrRepository.findAll(CDRSpecification.contain(messageFilter), pageable);
+	}
+	
+	@Override
+	public List<AcctDataUsageDTO> fetchAcctDataUsage(Long operatorId, Date startDate, Date endDate) {
+		LOGGER.debug("Start of fetchAcctDataUsage method.");
+		return cdrRepository.fetchAcctDataUsage(operatorId, startDate, endDate);
 	}
 
 	public void setCdrRepository(CDRRepository cdrRepository) {
