@@ -10,12 +10,12 @@ phases:
       - echo Build started on `date`
       - echo Building the Docker image...          
       - docker build -t nms-dashboard:latest .
-      - docker tag nms-dashboard:latest 860360332628.dkr.ecr.us-west-2.amazonaws.com/nms-dashboard:latest      
+      - docker tag nms-dashboard:latest 628443245197.dkr.ecr.us-west-2.amazonaws.com/cdr-dashboard:latest      
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
-      - docker push 860360332628.dkr.ecr.us-west-2.amazonaws.com/nms-dashboard:latest
+      - docker push 628443245197.dkr.ecr.us-west-2.amazonaws.com/cdr-dashboard:latest
       - mkdir appfiles
       - cd appfiles
       - cp ../appspec.yml .
