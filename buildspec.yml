@@ -9,8 +9,8 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...          
-      - docker build -t nms-dashboard:latest .
-      - docker tag nms-dashboard:latest 628443245197.dkr.ecr.us-west-2.amazonaws.com/cdr-dashboard:latest      
+      - docker build -t cdr-dashboard:latest .
+      - docker tag cdr-dashboard:latest 628443245197.dkr.ecr.us-west-2.amazonaws.com/cdr-dashboard:latest      
   post_build:
     commands:
       - echo Build completed on `date`
